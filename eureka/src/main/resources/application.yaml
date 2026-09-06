@@ -1,0 +1,26 @@
+server:
+  port: 8760
+
+spring:
+  application:
+    name: eureka
+
+eureka:
+  client:
+    register-with-eureka: false   # Eureka сервер не регистрирует сам себя
+    fetch-registry: false         # Eureka сервер не должен извлекать реестр
+    service-url:
+      defaultZone: http://localhost:${server.port}/eureka/
+  server:
+    enable-self-preservation: false  # Отключаем самосохранение для тестирования (в проде лучше включить)
+  instance:
+    hostname: localhost
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always  # Для отображения детальной информации о состоянии

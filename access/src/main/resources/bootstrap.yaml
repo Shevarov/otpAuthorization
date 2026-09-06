@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: access
+
+  cloud:
+    config:
+      enabled: true
+      discovery:
+        enabled: true
+        service-id: config-server
+      fail-fast: true
+      retry:
+        max-attempts: 10
+        initial-interval: 2000
+        multiplier: 1.5
+      name: access
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8760/eureka/
+    fetch-registry: true
+    register-with-eureka: true

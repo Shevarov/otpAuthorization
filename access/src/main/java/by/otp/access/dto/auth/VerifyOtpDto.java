@@ -1,0 +1,20 @@
+package by.otp.access.dto.auth;
+
+import by.otp.commonLib.enumeration.ContactType;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class VerifyOtpDto {
+    @NotBlank(message = "Request body parameter 'contact' must not be blank")
+    private String contact;
+    @NotNull(message = "Request body parameter 'contactType' must not be null")
+    private ContactType contactType;
+    @NotBlank(message = "Request body parameter 'code' must not be blank")
+    private String code;
+}

@@ -1,0 +1,38 @@
+server:
+  port: 8080
+  ssl:
+    enabled: false
+
+spring:
+  cloud:
+    gateway:
+      httpclient:
+        ssl:
+          useInsecureTrustManager: false
+      routes:
+        - id: access
+          uri: lb://ACCESS
+          predicates:
+            - Path=/access/**
+          metadata:
+            cors:
+              allowedOrigins: '*'
+              allowedMethods:
+                - GET
+                - POST
+                - PUT
+                - DELETE
+              allowedHeaders: '*'
+              maxAge: 1800
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+  metrics:
+    tags:
+      application: gateway-service

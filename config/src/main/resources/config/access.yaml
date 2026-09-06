@@ -1,0 +1,70 @@
+server:
+  port: 8081
+  servlet:
+    context-path: /access
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/authdb
+    driver-class-name: org.postgresql.Driver
+    username: auth
+    password: auth   #TODO inject from env
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+  redis:
+    host: localhost
+    port: 6379
+
+  kafka:
+    bootstrap-servers: localhost:29092 #TODO externalize config
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      retries: 10
+      properties:
+        enable:
+          idempotence: true
+        acks: all
+        spring:
+          json:
+            add:
+              type:
+                headers: false
+
+# 'redis' (default) or 'memory' for a local, single-instance in-process cache
+cache:
+  provider: redis
+
+notification:
+  topic: notification
+  ack-timeout: 3s
+
+security:
+  access-token-lifetime: 3600000 #1 hour #TODO 600000 #10 minutes
+  refresh-token-lifetime: 7200000 #2 hour #TODO 3600000 #1 hour
+  default-role-name: USER
+
+validation:
+  phone-pattern: "^\\+375[0-9]{9}$"
+  email-pattern: "^[A-Za-z0-9+_.-]+@(.+)$"
+
+otp:
+  key-prefix: "otp:"
+  attempts-key-prefix: "otp:verify:attempts:"
+  ttl: 10m
+  code-length: 4
+  message-template: "Ваш код подтверждения: "
+  verify:
+    max-attempts: 3
+    attempts-ttl: 10m
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  metrics:
+    tags:
+      application: access
